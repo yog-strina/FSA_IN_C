@@ -2,7 +2,7 @@ NAME	= fsa
 
 SRCS	= main.c
 
-CFLAGS	+= -W -Wall -Wextra -ansi -pedantic
+CFLAGS	+= -W -Wall -Wextra -ansi -pedantic -D_GNU_SOURCE -g
 
 OBJS	= $(SRCS:.c=.o)
 
