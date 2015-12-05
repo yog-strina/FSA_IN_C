@@ -84,24 +84,44 @@ State	*fill_state(State *state, int nbState)
   return (state);
 }
 
-int	read_check_date(State *state)
+void	replace_char(char *str, char c, char rep)
+{
+  int	i;
+
+  i = -1;
+  while (str[++i])
+    if (str[i] == c)
+      str[i] = rep;
+}
+
+int	read_check_date(State *state, int nbState)
 {
   char	date[MAX_DATE_LEN + 2] = {0};
   int	i;
   int	j;
+  int	k;
   int	toState;
   int	currState;
 
-  i = -1;
   system("clear");
   printf("Please enter a date: ");
   if (fgets(date, sizeof(date) * sizeof(*date), stdin) == NULL)
     return (-1);
-  while (*date)
+  replace_char(date, '_', ' ');
+  i = 0;
+  k = -1;
+  while (date[++k])
     {
       j = -1;
-      while (state[i].trans[++j] != *date && state[i].trans[j] != 0);
+      while (state[i].trans[++j] != date[k] && state[i].trans[j] != 0);
       if (state[i].trans[j] == 0)
+	return (-2);
+      if (state[i].trans[j] == '!' &&  date[k + 1] != 0)
+	return (-2);
+      toState = state[i].next[j];
+      i = -1;
+      while (++i < nbState && state[i].currState != toState);
+      if (i == nbState)
 	return (-2);
     }
   return (0);
@@ -110,15 +130,20 @@ int	read_check_date(State *state)
 int	main()
 {
   State	*state;
-  int	nb;
+  int	nbState;
+  int	flag;
 
-  if ((nb = nb_state(GRAMMAR)) == -1)
+  if ((nbState = nb_state(GRAMMAR)) == -1)
     return (-1);
-  if ((state = calloc(nb, sizeof(*state))) == NULL)
+  if ((state = calloc(nbState, sizeof(*state))) == NULL)
     return (-1);
-  if ((state = fill_state(state, nb)) == NULL)
+  if ((state = fill_state(state, nbState)) == NULL)
     return (-1);
-  if (read_check_date(state) == -1)
+  if ((flag = read_check_date(state, nbState)) == -1)
     return (-1);
+  else if (flag == -2)
+    printf("Bad date\n");
+  else
+    printf("Good date\n");
   return (0);
 }
