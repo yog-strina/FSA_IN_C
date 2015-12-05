@@ -1,12 +1,13 @@
-NAME	= fsa
+NAME	=	fsa
 
-SRCS	= main.c
+SRCS	= 	main.c \
+		fsa.c
 
-CFLAGS	+= -W -Wall -Wextra -ansi -pedantic -D_GNU_SOURCE -g
+CFLAGS	+=	-W -Wall -Wextra -ansi -pedantic -D_GNU_SOURCE
 
-OBJS	= $(SRCS:.c=.o)
+OBJS	= 	$(SRCS:.c=.o)
 
-CC	= gcc
+CC	= 	gcc
 
 $(NAME): all
 
