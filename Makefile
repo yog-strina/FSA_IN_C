@@ -9,9 +9,9 @@ OBJS	= 	$(SRCS:.c=.o)
 
 CC	= 	gcc
 
-$(NAME): all
+all: $(NAME)
 
-all: $(OBJS) $(HEADER)
+$(NAME): $(OBJS)
 	$(CC) -o $(NAME) $(OBJS) $(CFLAGS)
 
 clean:
@@ -22,3 +22,5 @@ fclean: clean
 	@rm -f $(NAME)
 
 re: fclean all
+
+full: fclean all clean
